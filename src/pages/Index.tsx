@@ -212,7 +212,7 @@ const Index = () => {
                       {character.role}
                     </Badge>
                   </div>
-                  <CardTitle className="text-lg">{character.name}</CardTitle>
+                  <CardTitle className="text-lg">{character.name === "Жаба" ? "Тоад" : character.name}</CardTitle>
                   <CardDescription className="text-[10px] leading-relaxed">
                     {character.description}
                   </CardDescription>
