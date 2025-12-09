@@ -1,8 +1,68 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
 
 const Index = () => {
+  const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
+
+  const characters = [
+    {
+      name: "Марио",
+      role: "Герой",
+      emoji: "🔴",
+      color: "var(--mario-red)",
+      stats: { speed: 7, jump: 8, power: 6 },
+      abilities: ["Прыжок", "Бег", "Огненный шар"],
+      description: "Храбрый водопроводчик, отправившийся спасать принцессу Пич",
+    },
+    {
+      name: "Луиджи",
+      role: "Герой",
+      emoji: "🟢",
+      color: "var(--mario-green)",
+      stats: { speed: 6, jump: 9, power: 5 },
+      abilities: ["Высокий прыжок", "Скольжение"],
+      description: "Брат Марио, более робкий, но прыгает выше всех",
+    },
+    {
+      name: "Принцесса Пич",
+      role: "NPC",
+      emoji: "👑",
+      color: "#FFC0CB",
+      stats: { speed: 5, jump: 6, power: 3 },
+      abilities: ["Парение", "Исцеление"],
+      description: "Правительница Грибного Королевства, похищенная Боузером",
+    },
+    {
+      name: "Жаба",
+      role: "Друг",
+      emoji: "🍄",
+      color: "#FF6347",
+      stats: { speed: 8, jump: 5, power: 4 },
+      abilities: ["Скорость", "Поддержка"],
+      description: "Верный помощник принцессы и гриб-гражданин королевства",
+    },
+    {
+      name: "Боузер",
+      role: "Злодей",
+      emoji: "🐲",
+      color: "#8B4513",
+      stats: { speed: 4, jump: 3, power: 10 },
+      abilities: ["Огненное дыхание", "Огромная сила", "Прыжок с дрожью"],
+      description: "Король Купа, главный антагонист, похититель принцессы",
+    },
+    {
+      name: "Йоши",
+      role: "Компаньон",
+      emoji: "🦖",
+      color: "#7CBE43",
+      stats: { speed: 7, jump: 7, power: 6 },
+      abilities: ["Поедание врагов", "Язык-захват", "Яйца"],
+      description: "Дружелюбный динозавр, верный скакун Марио",
+    },
+  ];
+
   const levels = [
     {
       world: "1-1",
@@ -120,6 +180,102 @@ const Index = () => {
               </div>
             </CardContent>
           </Card>
+        </section>
+
+        {/* Characters Gallery */}
+        <section>
+          <h2 className="text-2xl mb-4 text-white retro-shadow pixel-text">
+            ПЕРСОНАЖИ
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {characters.map((character, index) => (
+              <Card 
+                key={index} 
+                className={`pixel-border retro-shadow bg-white/95 cursor-pointer transition-all ${
+                  selectedCharacter === index ? 'scale-105 ring-4 ring-white' : 'hover:scale-102'
+                }`}
+                onClick={() => setSelectedCharacter(selectedCharacter === index ? null : index)}
+              >
+                <CardHeader>
+                  <div className="flex items-center justify-between mb-2">
+                    <div 
+                      className="w-16 h-16 rounded-full flex items-center justify-center text-4xl retro-shadow"
+                      style={{ backgroundColor: character.color }}
+                    >
+                      {character.emoji}
+                    </div>
+                    <Badge 
+                      variant="outline" 
+                      className="text-[10px]"
+                      style={{ borderColor: character.color, color: character.color }}
+                    >
+                      {character.role}
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-lg">{character.name}</CardTitle>
+                  <CardDescription className="text-[10px] leading-relaxed">
+                    {character.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {/* Stats */}
+                  <div className="space-y-1">
+                    <div className="flex justify-between items-center text-[10px]">
+                      <span>Скорость</span>
+                      <div className="flex gap-0.5">
+                        {Array.from({ length: 10 }).map((_, i) => (
+                          <div 
+                            key={i} 
+                            className={`w-2 h-3 ${i < character.stats.speed ? 'bg-[var(--mario-green)]' : 'bg-gray-300'} pixel-border`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center text-[10px]">
+                      <span>Прыжок</span>
+                      <div className="flex gap-0.5">
+                        {Array.from({ length: 10 }).map((_, i) => (
+                          <div 
+                            key={i} 
+                            className={`w-2 h-3 ${i < character.stats.jump ? 'bg-[var(--mario-blue)]' : 'bg-gray-300'} pixel-border`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center text-[10px]">
+                      <span>Сила</span>
+                      <div className="flex gap-0.5">
+                        {Array.from({ length: 10 }).map((_, i) => (
+                          <div 
+                            key={i} 
+                            className={`w-2 h-3 ${i < character.stats.power ? 'bg-[var(--mario-red)]' : 'bg-gray-300'} pixel-border`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Abilities - показываем только при выборе */}
+                  {selectedCharacter === index && (
+                    <div className="pt-2 border-t border-gray-200 animate-fade-in">
+                      <p className="text-[10px] font-bold mb-1">СПОСОБНОСТИ:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {character.abilities.map((ability, i) => (
+                          <Badge 
+                            key={i} 
+                            className="text-[9px]"
+                            style={{ backgroundColor: character.color }}
+                          >
+                            {ability}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </section>
 
         {/* Game Mechanics */}
