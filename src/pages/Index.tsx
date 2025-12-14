@@ -311,7 +311,7 @@ const Index = () => {
             {levels.map((level, index) => (
               <Card key={index} className="pixel-border retro-shadow bg-white/95 hover:scale-105 transition-transform">
                 <CardHeader>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between bg-[#ffea0000] py-0">
                     <CardTitle className="text-lg flex items-center gap-2">
                       <Icon name="Flag" className="text-[var(--mario-red)]" size={20} />
                       {level.world}
